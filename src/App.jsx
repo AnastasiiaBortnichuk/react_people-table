@@ -1,7 +1,8 @@
 import React from 'react';
-import { Route, NavLink, Switch } from 'react-router-dom';
+import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 import { HomePage } from './components/HomePage';
 import { PeoplePage } from './components/PeoplePage';
+import { NotFoundPage } from './components/NotFoundPage';
 import './App.scss';
 
 const App = () => (
@@ -24,7 +25,16 @@ const App = () => (
     </nav>
     <Switch>
       <Route path="/" exact component={HomePage} />
-      <Route path="/people" component={PeoplePage} />
+      <Route
+        path="/people/:slug?"
+        render={({ match }) => (
+          <PeoplePage match={match} />
+        )}
+      />
+      <Route path="/home" exact>
+        <Redirect to="/" />
+      </Route>
+      <Route path="*" component={NotFoundPage} />
     </Switch>
   </div>
 );
