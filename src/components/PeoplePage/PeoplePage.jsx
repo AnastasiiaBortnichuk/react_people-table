@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getPeople } from '../../api/api';
+import { PeopleTable } from '../PeopleTable';
 
 export const PeoplePage = () => {
   const [people, setPeople] = useState(null);
@@ -19,6 +20,6 @@ export const PeoplePage = () => {
 console.log(people);
 
   return (
-    <h2>People Page</h2>
+    <PeopleTable people={people} />
   );
 };
