@@ -27,9 +27,7 @@ const App = () => (
       <Route path="/" exact component={HomePage} />
       <Route
         path="/people/:slug?"
-        render={({ match }) => (
-          <PeoplePage match={match} />
-        )}
+        component={PeoplePage}
       />
       <Route path="/home" exact>
         <Redirect to="/" />

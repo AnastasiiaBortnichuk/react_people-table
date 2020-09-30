@@ -1,57 +1,86 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { PersonName } from '../PersonName';
 import './PersonRow.scss';
 
-export const PersonRow = ({ person, people, match }) => (
-  <tr className={classNames({
-    Person: true,
-    selected: match.params.slug === person.slug,
-  })}
-  >
-    <td>
-      <PersonName
-        name={person.name}
-        slug={person.slug}
-        sex={person.sex}
-      />
-    </td>
-    <td>{person.sex}</td>
-    <td>{person.born}</td>
-    <td>{person.died}</td>
-    <td>
-      {(people.some(parent => parent.name === person.motherName)
-        ? (
-          <>
-            <PersonName
-              name={person.motherName}
-              slug={people.find(parent => parent.name === person.motherName)
-                .slug}
-              sex={people.find(parent => parent.name === person.motherName).sex}
-            />
-          </>
-        )
-        : <>{person.motherName}</>
-      )}
-    </td>
-    <td>
-      {(people.some(parent => parent.name === person.fatherName)
-        ? (
-          <>
-            <PersonName
-              name={person.fatherName}
-              slug={people.find(parent => parent.name === person.fatherName)
-                .slug}
-              sex={people.find(parent => parent.name === person.fatherName).sex}
-            />
-          </>
-        )
-        : <>{person.fatherName}</>
-      )}
-    </td>
-  </tr>
-);
+export const PersonRow = ({ person, people, sortByParam }) => {
+  const { slug } = useParams();
+
+  return (
+    <tr className={classNames({
+      Person: true,
+      selected: slug === person.slug,
+    })}
+    >
+      <td className={classNames({
+        td: true,
+        sorted: sortByParam === 'name',
+      })}
+      >
+        <PersonName
+          name={person.name}
+          slug={person.slug}
+          sex={person.sex}
+        />
+      </td>
+      <td className={classNames({
+        td: true,
+        sorted: sortByParam === 'sex',
+      })}
+      >
+        {person.sex}
+      </td>
+      <td className={classNames({
+        td: true,
+        sorted: sortByParam === 'born',
+      })}
+      >
+        {person.born}
+      </td>
+      <td className={classNames({
+        td: true,
+        sorted: sortByParam === 'died',
+      })}
+      >
+        {person.died}
+      </td>
+      <td className="td">
+        {(people.some(parent => parent.name === person.motherName)
+          ? (
+            <>
+              <PersonName
+                name={person.motherName}
+                slug={people.find(parent => parent.name === person.motherName)
+                  .slug}
+                sex={people.find(parent => parent.name === person.motherName)
+                  .sex}
+              />
+            </>
+          )
+          : <>{person.motherName}</>
+        )}
+      </td>
+      <td className="td">
+        {(people.some(parent => parent.name === person.fatherName)
+          ? (
+            <>
+              <PersonName
+                name={person.fatherName}
+                slug={people.find(parent => parent.name === person.fatherName)
+                  .slug}
+                sex={people.find(parent => parent.name === person.fatherName)
+                  .sex}
+              />
+            </>
+          )
+          : <>{person.fatherName}</>
+        )}
+      </td>
+    </tr>
+  );
+};
 
 PersonRow.propTypes = {
   person: PropTypes.shape({
@@ -64,6 +93,7 @@ PersonRow.propTypes = {
     slug: PropTypes.string.isRequired,
   }).isRequired,
   people: PropTypes.arrayOf(PropTypes.object),
+  sortByParam: PropTypes.string.isRequired,
 };
 
 PersonRow.defaultProps = {

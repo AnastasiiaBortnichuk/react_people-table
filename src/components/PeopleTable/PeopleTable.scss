@@ -1,4 +1,14 @@
 .PeopleTable {
+  margin-top: 20px;
   border-collapse: collapse;
   border: 1px solid gray;
+}
+
+.th {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.sorted {
+  background-color: lightyellow;
 }
