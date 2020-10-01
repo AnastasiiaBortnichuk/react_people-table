@@ -10,6 +10,7 @@ export const PeoplePage = () => {
   const searchParams = new URLSearchParams(location.search);
   const sortByParam = searchParams.get('sortBy') || '';
   const query = searchParams.get('query') || '';
+  const [sort, setSort] = useState('');
 
   useEffect(() => {
     getPeople()
@@ -44,17 +45,33 @@ export const PeoplePage = () => {
       case 'name':
         return filtered.sort((a, b) => a.name.localeCompare(b.name));
 
+        // case 'mother':
+        //   return filtered.sort((a, b) => a.motherName
+        //     .localeCompare(b.motherName));
+
+        // case 'father':
+        //   return filtered.sort((a, b) => a.fatherName
+        //     .localeCompare(b.fatherName));
+
       default:
         return filtered;
     }
   }, [people, query, sortByParam]);
 
+  // eslint-disable-next-line consistent-return
   const sortPeople = (sortBy) => {
+    if (sortBy === sortByParam) {
+      filteredPeople.reverse();
+    }
+
     switch (sortBy) {
       case 'born':
       case 'died':
       case 'sex':
       case 'name':
+      // case 'mother':
+      // case 'father':
+        setSort(sortBy);
         searchParams.set('sortBy', `${sortBy}`);
         history.push({
           search: searchParams.toString(),
@@ -84,6 +101,7 @@ export const PeoplePage = () => {
         people={filteredPeople}
         handleSort={sortPeople}
         sortByParam={sortByParam}
+        sort={sort}
       />
     </>
   );

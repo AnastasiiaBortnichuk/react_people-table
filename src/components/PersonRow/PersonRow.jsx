@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { PersonName } from '../PersonName';
 import './PersonRow.scss';
 
-export const PersonRow = ({ person, people, sortByParam }) => {
+export const PersonRow = ({ person, people, sortByParam, sort }) => {
   const { slug } = useParams();
 
   return (
@@ -23,6 +23,7 @@ export const PersonRow = ({ person, people, sortByParam }) => {
           name={person.name}
           slug={person.slug}
           sex={person.sex}
+          sort={sort}
         />
       </td>
       <td className={classNames({
@@ -94,6 +95,7 @@ PersonRow.propTypes = {
   }).isRequired,
   people: PropTypes.arrayOf(PropTypes.object),
   sortByParam: PropTypes.string.isRequired,
+  sort: PropTypes.string.isRequired,
 };
 
 PersonRow.defaultProps = {
